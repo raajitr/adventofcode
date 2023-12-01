@@ -8,6 +8,8 @@ import (
 	"unicode"
 )
 
+var spellDigitReplacer *strings.Replacer
+
 func inputFromFile(filename string) []byte {
 	binp, err := os.ReadFile(filename)
 	if err != nil {
@@ -51,9 +53,18 @@ func extractDigits(calString string) int {
 	return intDigit
 }
 
+func convertSpellDigits(calString string) string {
+	return spellDigitReplacer.Replace(calString)
+}
+
 func parseCalValues(calibValues []string) []int {
 	var values []int
 	for _, calString := range calibValues {
+
+		// super hacky! will probably convert it to regex based soln
+		calString = convertSpellDigits(calString)
+		calString = convertSpellDigits(calString)
+		
 		values = append(values, extractDigits(calString))
 	}
 	return values
@@ -61,15 +72,26 @@ func parseCalValues(calibValues []string) []int {
 
 func calibSum(digits []int) int {
 	var tot int
-	for _, v := range(digits) {
+	for _, v := range digits {
 		tot += v
 	}
 
 	return tot
 }
 
-
 func main() {
+	spellDigitReplacer = strings.NewReplacer(
+		"one", "1e",
+		"two", "2o",
+		"three", "3e",
+		"four", "4r",
+		"five", "5e",
+		"six", "6x",
+		"seven", "7n",
+		"eight", "8t",
+		"nine", "9e",
+	)
+
 	// Read input file
 	inp := inputFromFile("puzzle_input.txt")
 
@@ -78,8 +100,6 @@ func main() {
 
 	// iterate over the data and extract first and last digit
 	calibDigits := parseCalValues(calibStrings)
-
-	fmt.Println(len(calibDigits))
 
 	total := calibSum(calibDigits)
 
