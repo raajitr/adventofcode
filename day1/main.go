@@ -57,13 +57,16 @@ func convertSpellDigits(calString string) string {
 	return spellDigitReplacer.Replace(calString)
 }
 
-func parseCalValues(calibValues []string) []int {
+func parseCalValues(calibValues []string, spellDigit bool) []int {
 	var values []int
 	for _, calString := range calibValues {
 
-		// super hacky! will probably convert it to regex based soln
-		calString = convertSpellDigits(calString)
-		calString = convertSpellDigits(calString)
+		// task 2
+		if spellDigit {
+			// super hacky! will probably convert it to regex based soln
+			calString = convertSpellDigits(calString)
+			calString = convertSpellDigits(calString)
+		}
 		
 		values = append(values, extractDigits(calString))
 	}
@@ -98,10 +101,16 @@ func main() {
 	// convert to slice of strings
 	calibStrings := strings.Split(string(inp), "\n")
 
+	// task 1
 	// iterate over the data and extract first and last digit
-	calibDigits := parseCalValues(calibStrings)
+	calibDigits := parseCalValues(calibStrings, false)
+	task1 := calibSum(calibDigits)
 
-	total := calibSum(calibDigits)
+	fmt.Println("Task 1:", task1)
 
-	fmt.Println(total)
+	// task 2
+	calibDigits = parseCalValues(calibStrings, true)
+	task2 := calibSum(calibDigits)
+
+	fmt.Println("Task 2:", task2)
 }
