@@ -21,22 +21,18 @@ func inputFromFile(filename string) []byte {
 }
 
 func extractDigits(calString string) int {
-	l, r := 0, len(calString)-1
 	runes := []rune(calString)
 	l_found, r_found := ' ', ' '
 
-	for l <= r {
-		if unicode.IsNumber(runes[l]) && l_found == ' ' {
+	for l := 0; l <= len(calString)-1; l++ {
+		if unicode.IsNumber(runes[l]) {
 			l_found = runes[l]
-		} else if unicode.IsNumber(runes[r]) && r_found == ' ' {
-			r_found = runes[r]
-		} else if l_found == ' ' {
-			l += 1
-		} else if r_found == ' ' {
-			r -= 1
+			break
 		}
-
-		if l_found != ' ' && r_found != ' ' {
+	}
+	for r := len(calString)-1; r >= 0; r-- {
+		if unicode.IsNumber(runes[r]) {
+			r_found = runes[r]
 			break
 		}
 	}
