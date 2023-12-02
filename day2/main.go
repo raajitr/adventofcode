@@ -14,7 +14,7 @@ var cubes = map[string]int{
 }
 
 func main() {
-	input := inputFromFile("input")
+	input := inputFromFile("inputs/input")
 	games := strings.Split(string(input), "\n")
 
 	task1(games)

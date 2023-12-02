@@ -92,7 +92,7 @@ func main() {
 	)
 
 	// Read input file
-	inp := inputFromFile("puzzle_input.txt")
+	inp := inputFromFile("inputs/input")
 
 	// convert to slice of strings
 	calibStrings := strings.Split(string(inp), "\n")
